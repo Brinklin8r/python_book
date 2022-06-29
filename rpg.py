@@ -32,3 +32,8 @@ bag.updateItem(Slot('Default Knife', 6, 1.9, 20.5))
 bag.displayInventory()
 bag.updateItem(noItem)
 bag.displayInventory()
+
+bag.saveInventory('inventorySave.py')
+
+bag.readInventory('inventoryRead.py')
+bag.displayInventory()
