@@ -109,15 +109,14 @@ class Inventory():
                 colWidths[0] = len(item.itemName)
             if colWidths[1] < len(str(item.itemCount)):
                 colWidths[1] = len(str(item.itemCount))
-            if colWidths[2] < len(str(item.itemWeight)) + 1:
+            if colWidths[2] < len(str(item.itemWeight)) + 1:    # 2nd decimal
                 colWidths[2] = len(str(item.itemWeight)) + 1
-            if colWidths[3] < len(str(item.itemPrice)) + 2:
+            if colWidths[3] < len(str(item.itemPrice)) + 2:     # $ and 2nd decimal
                 colWidths[3] = len(str(item.itemPrice)) + 2
 
         for length in colWidths:                        # Calculate Width of Inventory Report
             totalWidth += length + 3                    # Adjust for spacer character " | "
-        # Adjust for last character being " |"
-        totalWidth -= 1
+        totalWidth -= 1                                 # Adjust for last character being " |"
 
         # Inventory Report Header
         print('-' * totalWidth)
