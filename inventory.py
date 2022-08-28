@@ -3,7 +3,9 @@
 # RPG CRUD inventory management script v2
 
 class Slot():
-    '''Simple inventory slot model.'''
+    """
+    Simple inventory slot model.
+    """
 
     def __init__(self, itemName, itemCount=1, itemWeight=0.0, itemPrice=0.0):
         self.itemName = itemName
@@ -12,25 +14,25 @@ class Slot():
         self.itemPrice = itemPrice
 
     def displayItem(self, columnWidths):
-        '''Displays a single inventory item.'''
+        """Displays a single inventory item."""
         print(self.itemName.ljust(columnWidths[0]),
               str(self.itemCount).rjust(columnWidths[1]),
               "{:.2f}".format(self.itemWeight).rjust(columnWidths[2]),
               "${:.2f}".format(self.itemPrice).rjust(columnWidths[3]),
-              sep=' | ', end=' |\n')
+              sep=" | ", end=" |\n")
 
 ################################################################################
 
 
 class Inventory():
-    '''Simple inventory management model.'''
+    """Simple inventory management model."""
 
     def __init__(self):
         self.inventory = []
 
     # Add item to inventory.
     def addItem(self, item):
-        '''Adds an item to the inventory.'''
+        """Adds an item to the inventory."""
         # Check if there is already an item with the same name.
         found = False
         for slot in self.inventory:
@@ -45,7 +47,7 @@ class Inventory():
 
     # Remove item from inventory.
     def deleteItem(self, item, delCount=1):
-        '''Removes an item to the inventory.'''
+        """Removes an item to the inventory."""
         # Check if there is an item with the same name.
         found = False
         slotCount = 0
@@ -55,24 +57,24 @@ class Inventory():
                 if slot.itemCount > delCount:
                     slot.itemCount -= delCount
                     print(
-                        f'Removed {delCount} of {item.itemName}s from your inventory.')
+                        f"Removed {delCount} of {item.itemName}s from your inventory.")
                 elif delCount == slot.itemCount:
                     del self.inventory[slotCount]
-                    print(f'Removed all {item.itemName}s from your inventory.')
+                    print(f"Removed all {item.itemName}s from your inventory.")
                 else:
                     # ERROR if not enough.
                     print(
-                        f'Unable to delete {delCount} {item.itemName}s.  You only have {slot.itemCount}!')
+                        f"Unable to delete {delCount} {item.itemName}s.  You only have {slot.itemCount}!")
                 found = True
                 break
             slotCount += 1
         if not(found):
             # No: ERROR
-            print(f'Unable to delete {item.itemName}s.  You have none!')
+            print(f"Unable to delete {item.itemName}s.  You have none!")
 
     # Update item in inventory.
     def updateItem(self, item):
-        '''Updates an item's info in the inventory.'''
+        """Updates an item's info in the inventory."""
         # Check if there is already an item with the same name.
         found = False
         for slot in self.inventory:
@@ -81,17 +83,17 @@ class Inventory():
                 slot.itemCount = item.itemCount
                 slot.itemWeight = item.itemWeight
                 slot.itemPrice = item.itemPrice
-                print(f'Updated {item.itemName} with new values.')
+                print(f"Updated {item.itemName} with new values.")
                 found = True
                 break
         if not(found):
             # No: ERROR
-            print(f'Unable to find item {item.itemName}.')
+            print(f"Unable to find item {item.itemName}.")
 
     # Display inventory.
     def displayInventory(self):
-        '''Displays the inventory report including total weight, total item count
-            and total item price.'''
+        """Displays the inventory report including total weight, total item count
+            and total item price."""
         # for item in self.inventory:
         #     print(item.itemName)
         #     print(item.itemCount)
@@ -119,13 +121,13 @@ class Inventory():
         totalWidth -= 1                                 # Adjust for last character being " |"
 
         # Inventory Report Header
-        print('-' * totalWidth)
-        print('Item Name'.center(colWidths[0]), 'Count'.center(colWidths[1]),
-              'Weight'.center(colWidths[2]),    'Price'.center(colWidths[3]),
-              sep=' | ', end=' |\n')
-        print('-' * colWidths[0], '-' * colWidths[1],
-              '-' * colWidths[2], '-' * colWidths[3],
-              sep='-+-', end='-|\n')
+        print("-" * totalWidth)
+        print("Item Name".center(colWidths[0]), "Count".center(colWidths[1]),
+              "Weight".center(colWidths[2]),    "Price".center(colWidths[3]),
+              sep=" | ", end=" |\n")
+        print("-" * colWidths[0], "-" * colWidths[1],
+              "-" * colWidths[2], "-" * colWidths[3],
+              sep="-+-", end="-|\n")
 
         # Inventory Report Item(s)
         for item in self.inventory:
@@ -135,31 +137,31 @@ class Inventory():
             itemsCount += item.itemCount
 
         # Inventory Report Footer
-        print('=' * totalWidth)
-        print('Total Items:'.ljust(13),  str(itemsCount).rjust(10))
-        print('Total Weight:'.ljust(13),
+        print("=" * totalWidth)
+        print("Total Items:".ljust(13),  str(itemsCount).rjust(10))
+        print("Total Weight:".ljust(13),
               "{:.2f}".format(itemsWeight).rjust(10))
-        print('Total Value:'.ljust(13),
+        print("Total Value:".ljust(13),
               "${:.2f}".format(itemsPrice).rjust(10))
 
     # Save inventory.
     def saveInventory(self, saveFileName):
-        '''Saves inventory to a file.'''
-        saveFile = open(saveFileName, 'w')
+        """Saves inventory to a file."""
+        saveFile = open(saveFileName, "w", encoding="utf-8")
         for item in self.inventory:
-            saveFile.write(item.itemName + ',' + str(item.itemCount) +
-                           ',' + str(item.itemWeight) + ',' +
-                           str(item.itemPrice) + '\n')
+            saveFile.write(item.itemName + "," + str(item.itemCount) +
+                           "," + str(item.itemWeight) + "," +
+                           str(item.itemPrice) + "\n")
         saveFile.close()
-        print(f'Inventory saved to {saveFileName}.')
+        print(f"Inventory saved to {saveFileName}.")
 
     # Read inventory.
     def readInventory(self, readFileName):
-        '''Read inventory from a file.'''
-        readFile = open(readFileName)
+        """Read inventory from a file."""
+        readFile = open(readFileName, encoding="utf-8")
         for line in readFile.readlines():
-            test = line.split(',')
+            test = line.split(",")
             self.addItem(Slot(test[0], int(test[1]),
                          float(test[2]), float(test[3])))
         readFile.close()
-        print(f'Inventory read from {readFileName}.')
+        print(f"Inventory read from {readFileName}.")
